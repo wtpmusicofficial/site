@@ -219,7 +219,9 @@
         }
       });
 
-      // Track SoundCloud play
+      // Track SoundCloud play (debounced - SoundCloud fires PLAY multiple times)
+      let lastPlayTracked = 0;
+      const PLAY_DEBOUNCE_MS = 2000;
       function initSoundCloudTracking() {
         if (typeof SC === 'undefined') {
           setTimeout(initSoundCloudTracking, 100);
@@ -230,6 +232,9 @@
         const widget = SC.Widget(iframe);
         widget.bind(SC.Widget.Events.READY, function() {
           widget.bind(SC.Widget.Events.PLAY, function() {
+            const now = Date.now();
+            if (now - lastPlayTracked < PLAY_DEBOUNCE_MS) return;
+            lastPlayTracked = now;
             track('soundcloud_play');
           });
         });
