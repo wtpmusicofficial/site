@@ -30,7 +30,7 @@
       overflow-x: hidden;
     }
 
-    .flag-stripes {
+    .page-bg {
       position: fixed;
       top: 0;
       left: 0;
@@ -38,26 +38,21 @@
       height: 100%;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.08;
+      background-image: url('../images/background.png');
+      background-size: cover;
+      background-position: center;
+      filter: blur(40px);
+      transform: scale(1.1);
     }
 
-    .flag-stripes::before,
-    .flag-stripes::after {
+    .page-bg::after {
       content: '';
       position: absolute;
+      top: 0;
       left: 0;
       width: 100%;
-      height: 33.33%;
-    }
-
-    .flag-stripes::before {
-      top: 0;
-      background: var(--green);
-    }
-
-    .flag-stripes::after {
-      bottom: 0;
-      background: var(--blue);
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
     }
 
     .hero {
@@ -72,50 +67,7 @@
       padding: 2rem;
     }
 
-    .logo {
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, var(--green), var(--yellow), var(--blue));
-      background-size: 200% 200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: gradient-shift 6s ease infinite;
-    }
-
-    @keyframes gradient-shift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-
-    .tagline {
-      font-size: 1.25rem;
-      font-weight: 300;
-      opacity: 0.9;
-      max-width: 400px;
-      margin-bottom: 3rem;
-    }
-
-    .cta {
-      display: inline-block;
-      padding: 1rem 2.5rem;
-      background: linear-gradient(135deg, var(--green), #00b84a);
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      border-radius: 50px;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 40px rgba(0, 151, 57, 0.4);
-    }
-
     .embed-zone {
-      margin-top: 4rem;
       padding: 2rem;
       width: 100%;
       max-width: 800px;
@@ -152,15 +104,11 @@
   </style>
 </head>
 <body>
-  <div class="flag-stripes"></div>
+  <div class="page-bg"></div>
 
   <main class="hero">
-    <h1 class="logo">Brazil Lander</h1>
-    <p class="tagline">Your gateway to Brazil</p>
-    <a href="#" class="cta">Get Started</a>
-
     <div class="embed-zone" id="embed-target">
-      <iframe id="soundcloud-player" width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2276464058&color=%23ff5500&auto_play=false&hide_related=true&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+      <iframe id="soundcloud-player" width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2276464058&color=%23ff5500&auto_play=false&hide_related=true&show_comments=true&show_user=true&show_reposts=false&show_teaser=false&visual=true"></iframe>
       <div class="embed-credit"><a href="https://soundcloud.com/we-the-people-450864929" title="WE THE PEOPLE" target="_blank">WE THE PEOPLE</a> · <a href="https://soundcloud.com/we-the-people-450864929/declan-mckenna-brazil-we-the" title="Declan McKenna - Brazil (WE THE PEOPLE REMIX)" target="_blank">Declan McKenna - Brazil (WE THE PEOPLE REMIX)</a></div>
     </div>
   </main>
@@ -225,11 +173,6 @@
 
       // Track page load
       track('page_load');
-
-      // Track CTA click
-      document.querySelector('.cta').addEventListener('click', function(e) {
-        track('cta_click');
-      });
 
       // Track clicks on embed zone
       document.getElementById('embed-target').addEventListener('click', function(e) {
