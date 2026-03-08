@@ -110,14 +110,45 @@
       margin-top: 2rem;
       border-radius: 12px;
       overflow: hidden;
-      aspect-ratio: 16 / 9;
+      background: #fff;
     }
 
-    .headshot-card img {
+    .headshot-card__image {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+    }
+
+    .headshot-card__image img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+    }
+
+    .headshot-card__content {
+      padding: 2rem;
+      color: #1a1a1a;
+      font-size: 1rem;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    .headshot-card__cta {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.875rem 2rem;
+      background: #1a1a1a;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      border-radius: 6px;
+      transition: opacity 0.2s;
+    }
+
+    .headshot-card__cta:hover {
+      opacity: 0.85;
     }
   </style>
 </head>
@@ -131,7 +162,19 @@
       <div class="embed-credit"><a href="https://soundcloud.com/we-the-people-450864929" title="WE THE PEOPLE" target="_blank">WE THE PEOPLE</a> · <a href="https://soundcloud.com/we-the-people-450864929/declan-mckenna-brazil-we-the" title="Declan McKenna - Brazil (WE THE PEOPLE REMIX)" target="_blank">Declan McKenna - Brazil (WE THE PEOPLE REMIX)</a></div>
     </div>
     <div class="headshot-card">
-      <img src="../images/DREW-HEADSHOT-BW-HOOD-UNC.svg" alt="Drew">
+      <div class="headshot-card__image">
+        <img src="../images/DREW-HEADSHOT-BW-HOOD-UNC.svg" alt="Drew">
+      </div>
+      <div class="headshot-card__content">
+        hey stranger!  my name is drew.  thanks for listening to my new remix :)
+
+        if you enjoyed, it would mean the world to me to share more with you.  just hit the follow button below so you know as soon as the next one drops!
+
+        P.S: the next remix will be "out of my league" by fitz and the tantrums
+
+        cheers!
+        <a href="https://www.instagram.com/wethepeople.wav/" target="_blank" rel="noopener noreferrer" class="headshot-card__cta">FOLLOW</a>
+      </div>
     </div>
   </main>
 
@@ -197,6 +240,11 @@
         if (e.target.closest('a, button')) {
           track('embed_click_' + (e.target.textContent?.slice(0, 30) || 'link'));
         }
+      });
+
+      // Track follow button click
+      document.querySelector('.headshot-card__cta')?.addEventListener('click', function() {
+        track('follow_click');
       });
 
       // Track SoundCloud play/pause (debounced - SoundCloud fires events multiple times)
