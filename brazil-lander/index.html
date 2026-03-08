@@ -125,9 +125,29 @@
       border-radius: 12px;
     }
 
-    .embed-zone p {
-      font-size: 0.9rem;
-      opacity: 0.6;
+    .embed-zone iframe {
+      display: block;
+      border-radius: 8px;
+    }
+
+    .embed-credit {
+      margin-top: 0.5rem;
+      font-size: 10px;
+      color: #999;
+      line-break: anywhere;
+      word-break: normal;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .embed-credit a {
+      color: #999;
+      text-decoration: none;
+    }
+
+    .embed-credit a:hover {
+      color: #ccc;
     }
   </style>
 </head>
@@ -140,7 +160,8 @@
     <a href="#" class="cta">Get Started</a>
 
     <div class="embed-zone" id="embed-target">
-      <p>Embed content goes here</p>
+      <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2276464058&color=%23ff5500&auto_play=false&hide_related=true&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+      <div class="embed-credit"><a href="https://soundcloud.com/we-the-people-450864929" title="WE THE PEOPLE" target="_blank">WE THE PEOPLE</a> · <a href="https://soundcloud.com/we-the-people-450864929/declan-mckenna-brazil-we-the" title="Declan McKenna - Brazil (WE THE PEOPLE REMIX)" target="_blank">Declan McKenna - Brazil (WE THE PEOPLE REMIX)</a></div>
     </div>
   </main>
 
