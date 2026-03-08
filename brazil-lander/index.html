@@ -160,23 +160,25 @@
     <a href="#" class="cta">Get Started</a>
 
     <div class="embed-zone" id="embed-target">
-      <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2276464058&color=%23ff5500&auto_play=false&hide_related=true&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
+      <iframe id="soundcloud-player" width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2276464058&color=%23ff5500&auto_play=false&hide_related=true&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
       <div class="embed-credit"><a href="https://soundcloud.com/we-the-people-450864929" title="WE THE PEOPLE" target="_blank">WE THE PEOPLE</a> · <a href="https://soundcloud.com/we-the-people-450864929/declan-mckenna-brazil-we-the" title="Declan McKenna - Brazil (WE THE PEOPLE REMIX)" target="_blank">Declan McKenna - Brazil (WE THE PEOPLE REMIX)</a></div>
     </div>
   </main>
 
+  <script src="https://w.soundcloud.com/player/api.js" async></script>
   <script>
     (function() {
       const STORAGE_KEY = 'bl_user_id';
       const SITE = (function() {
-        const host = window.location.hostname;
         const path = window.location.pathname;
+        const pathMatch = path.match(/^\/([^/]+)/);
+        if (pathMatch) return pathMatch[1];
+        const host = window.location.hostname;
         const hostParts = host.split('.');
         if (hostParts.length >= 2 && !['www', 'pages', 'workers'].includes(hostParts[0])) {
           return hostParts[0];
         }
-        const pathMatch = path.match(/^\/([^/]+)/);
-        return pathMatch ? pathMatch[1] : 'brazil-lander';
+        return 'brazil-lander';
       })();
 
       function getOrCreateUserId() {
@@ -216,6 +218,23 @@
           track('embed_click_' + (e.target.textContent?.slice(0, 30) || 'link'));
         }
       });
+
+      // Track SoundCloud play
+      function initSoundCloudTracking() {
+        if (typeof SC === 'undefined') {
+          setTimeout(initSoundCloudTracking, 100);
+          return;
+        }
+        const iframe = document.getElementById('soundcloud-player');
+        if (!iframe) return;
+        const widget = SC.Widget(iframe);
+        widget.bind(SC.Widget.Events.READY, function() {
+          widget.bind(SC.Widget.Events.PLAY, function() {
+            track('soundcloud_play');
+          });
+        });
+      }
+      initSoundCloudTracking();
     })();
   </script>
 </body>
