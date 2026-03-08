@@ -16,6 +16,7 @@ Add in **Settings → Variables and Secrets**:
 - **heartbeat** – Fired every 20 seconds with time on site (seconds). Only counts when tab is visible.
 - **cta_click** – Fired when "Get Started" is clicked
 - **soundcloud_play** – Fired when play is pressed on the SoundCloud embed
+- **soundcloud_pause** – Fired when pause is pressed on the SoundCloud embed
 - **embed_click_*** – Fired when links/buttons in the embed zone are clicked
 
 ## Airtable Table
