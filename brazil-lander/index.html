@@ -154,22 +154,18 @@
         }).catch(() => {});
       }
 
-      // Heartbeat: track time on site (only counts when tab is visible)
-      let activeSeconds = 0;
-      let lastVisibleAt = Date.now();
-      document.addEventListener('visibilitychange', function() {
-        if (document.hidden) {
-          activeSeconds += Math.floor((Date.now() - lastVisibleAt) / 1000);
-        } else {
-          lastVisibleAt = Date.now();
-        }
-      });
-      setInterval(function() {
+      // Heartbeat: track time on site (seconds since session start, shared across tabs)
+      const SESSION_START_KEY = 'bl_session_start';
+      if (!localStorage.getItem(SESSION_START_KEY)) {
+        localStorage.setItem(SESSION_START_KEY, String(Date.now()));
+      }
+      function sendHeartbeat() {
         if (document.hidden) return;
-        activeSeconds += Math.floor((Date.now() - lastVisibleAt) / 1000);
-        lastVisibleAt = Date.now();
-        track('heartbeat', activeSeconds);
-      }, 20000);
+        const start = parseInt(localStorage.getItem(SESSION_START_KEY), 10);
+        const duration = Math.floor((Date.now() - start) / 1000);
+        track('heartbeat', duration);
+      }
+      setInterval(sendHeartbeat, 20000);
 
       // Track page load
       track('page_load');
