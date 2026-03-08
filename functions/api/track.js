@@ -14,13 +14,22 @@ export async function onRequestPost(context) {
 
   try {
     const body = await request.json();
-    const { user, action, site } = body;
+    const { user, action, site, duration } = body;
 
     if (!user || !action || !site) {
       return new Response(
         JSON.stringify({ error: 'Missing required fields: user, action, site' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
+    }
+
+    const fields = {
+      User: String(user),
+      Action: String(action),
+      Site: String(site),
+    };
+    if (typeof duration === 'number' && duration >= 0) {
+      fields.Duration = Math.round(duration);
     }
 
     const response = await fetch(
@@ -31,13 +40,7 @@ export async function onRequestPost(context) {
           Authorization: `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          fields: {
-            User: String(user),
-            Action: String(action),
-            Site: String(site),
-          },
-        }),
+        body: JSON.stringify({ fields }),
       }
     );
 

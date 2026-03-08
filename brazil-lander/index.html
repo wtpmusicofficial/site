@@ -194,15 +194,34 @@
         }
       }
 
-      function track(action) {
+      function track(action, duration) {
         const user = getOrCreateUserId();
+        const payload = { user, action, site: SITE };
+        if (typeof duration === 'number') payload.duration = duration;
         fetch('/api/track', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ user, action, site: SITE }),
+          body: JSON.stringify(payload),
           keepalive: true,
         }).catch(() => {});
       }
+
+      // Heartbeat: track time on site (only counts when tab is visible)
+      let activeSeconds = 0;
+      let lastVisibleAt = Date.now();
+      document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+          activeSeconds += Math.floor((Date.now() - lastVisibleAt) / 1000);
+        } else {
+          lastVisibleAt = Date.now();
+        }
+      });
+      setInterval(function() {
+        if (document.hidden) return;
+        activeSeconds += Math.floor((Date.now() - lastVisibleAt) / 1000);
+        lastVisibleAt = Date.now();
+        track('heartbeat', activeSeconds);
+      }, 20000);
 
       // Track page load
       track('page_load');
